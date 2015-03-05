@@ -28,10 +28,8 @@ function createParticles(size, transparent, opacity, sizeAttenuation, color) {
 
 
     var texture1 = THREE.ImageUtils.loadTexture("assets/textures/particles/raindrop-1.png");
-    var texture2 = THREE.ImageUtils.loadTexture("assets/textures/particles/raindrop-2.png");
 
     var geom1 = new THREE.Geometry();
-    var geom2 = new THREE.Geometry();
 
     var material1 = new THREE.ParticleBasicMaterial({
         size: size,
@@ -43,45 +41,16 @@ function createParticles(size, transparent, opacity, sizeAttenuation, color) {
         color: color
     });
 
-    var material2 = new THREE.ParticleBasicMaterial({
-        size: size,
-        transparent: transparent,
-        opacity: opacity,
-        map: texture2,
-        blending: THREE.AdditiveBlending,
-        sizeAttenuation: sizeAttenuation,
-        color: color
-    });
-
-
-    var range = 40;
-    //            for (var i = 0 ; i < 10000 ; i++) {
-    //                var particle = new THREE.Vector3(Math.random()*range-range/2,Math.random()*range-range/2,Math.random()*range-range/2);
-    //                geom1.vertices.push(particle);
-    //            }
-
-    // y is from 0 to 60
-    // x is from -20 to 20
     for (var i = 0; i < 3000; i++) {
         var particle = new THREE.Vector3(0,0,0);
         particle.velocityY = Math.random()*30;
         particle.velocityX = 5*(Math.random() - .5);
-        geom2.vertices.push(particle);
+        geom1.vertices.push(particle);
     }
-
-
-    //            system1 = new THREE.ParticleSystem(geom1,material1);
-
-
-    system2 = new THREE.ParticleSystem(geom2, material2);
-
-    //            system1.sortParticles = true;
-    //            system1.name = "particles1";
-
-    system2.sortParticles = true;
-    system2.name = "particles2";
-
-    //            scene.add(system1);
+	
+    system1 = new THREE.ParticleSystem(geom1, material1);
+    system1.sortParticles = true;
+    system1.name = "particles2";
     scene.add(system2);
 }
 
