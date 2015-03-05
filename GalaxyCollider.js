@@ -42,18 +42,17 @@ function createParticles(size, transparent, opacity, sizeAttenuation, color) {
     });
 
     for (var i = 0; i < 3000; i++) {
-        var particle = new THREE.Vector3(0,0,0);
-        particle.velocityY = Math.random()*30;
-        particle.velocityX = 5*(Math.random() - .5);
+        var particle = new THREE.Vector3(40*(Math.random() - .5),40*Math.random(),0);
+        particle.velocityY = 1*(Math.random() - .5);
+        particle.velocityX = 1*(Math.random() - .5);
         geom1.vertices.push(particle);
     }
 	
     system1 = new THREE.ParticleSystem(geom1, material1);
     system1.sortParticles = true;
     system1.name = "particles2";
-    scene.add(system2);
+    scene.add(system1);
 }
-
 
 function setupCameraAndLight() {
     // create a camera, which defines where we're looking at.
@@ -70,10 +69,10 @@ function setupCameraAndLight() {
 function animate() {
     stats.update();
 
-    var vertices = system2.geometry.vertices;
+    var vertices = system1.geometry.vertices;
 	step++;
 	vertices.forEach(function (v) {
-		if(step % 3 == 0)
+		/* if(step % 3 == 0)
 		{
 			v.y = v.y + (v.velocityY);
 			v.x = v.x - (v.velocityX);
@@ -84,17 +83,6 @@ function animate() {
 				v.y = 0;
 				v.x = 0;
 				v.velocityY = Math.random()*30;
-			}
-		}
-		/* for(var i = 0; i < 20; i++)
-		{
-			if (v.x <= -10 * Math.cos(i / 20 * Math.PI) || v.x >= 10 * Math.cos(i / 20 * Math.PI)) {
-				v.velocityX = v.velocityX * -1;
-			}
-			if(i > 10){
-				if (v.y <= -i -10 || v.y >= i - 10) {
-					v.velocityX = v.velocityX * -1;
-				}
 			}
 		} */
 	});
@@ -208,19 +196,21 @@ var draw = function (ctx) {
 }
 
 
+function gravity(m1, m2, dis){
+	var grav = (6.67 * Math.POW(10,-11) * m1) / (Math.POW(dis,2));
+}
+
 function initGui() {
     controls = new function () {
         this.size = 3;
         this.transparent = true;
         this.opacity = 0.6;
-        this.color = 0xff0000;
+        this.color = 0xffffff;
 
         this.sizeAttenuation = true;
 
         this.redraw = function () {
             scene.remove(scene.getObjectByName("particles1"));
-            scene.remove(scene.getObjectByName("particles2"));
-
             createParticles(controls.size, controls.transparent, controls.opacity, controls.sizeAttenuation, controls.color);
         };
     }
